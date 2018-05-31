@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author             = { "yulin" => "yulin_yl@126.com" }
   s.platform     = :ios, "7.0"
-  s.source       = { :git => "ssh://git@121.41.95.96:7999/cst/react-native-xinge-push.git", :tag => "v0.5.1" }
+  s.source       = { :git => "http://121.41.95.96/bitbucket/scm/cst/react-native-xinge-push.git", :tag => "v0.5.1" }
   s.source_files  = "**/*.{h,m}"
   s.requires_arc = true
 
