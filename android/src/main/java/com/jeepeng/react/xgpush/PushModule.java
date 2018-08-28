@@ -25,6 +25,8 @@ import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.encrypt.Rijndael;
 
+import java.util.Date;
+
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
@@ -236,10 +238,11 @@ public class PushModule extends ReactContextBaseJavaModule implements ActivityEv
     }
 
     @ReactMethod
-    public void addLocalNotification(String title, String content) {
+    public void addLocalNotification(String title, String content, double expirationTimeMs) {
         XGLocalMessage message = new XGLocalMessage();
         message.setTitle(title);
         message.setContent(content);
+        message.setExpirationTimeMs((long)expirationTimeMs);
         Log.i(MODULE_NAME, title);
         Log.i(MODULE_NAME, content);
         XGPushManager.addLocalNotification(this.reactContext, message);
