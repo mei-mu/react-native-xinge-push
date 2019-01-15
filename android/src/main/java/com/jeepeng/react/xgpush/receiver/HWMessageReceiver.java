@@ -10,8 +10,12 @@ import android.util.Log;
 import com.huawei.hms.support.api.push.PushReceiver;
 import com.jeepeng.react.xgpush.Constants;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * 华为官方推送通道消息接收器
@@ -22,6 +26,7 @@ public class HWMessageReceiver extends PushReceiver {
 
     @Override
     public void onEvent(Context context, Event event, Bundle extras) {
+        Log.i("suming", "收到通知");
         if (Event.NOTIFICATION_OPENED.equals(event) || Event.NOTIFICATION_CLICK_BTN.equals(event)) {
             int notifyId = extras.getInt(BOUND_KEY.pushNotifyId, 0);
             if (0 != notifyId) {
@@ -35,16 +40,30 @@ public class HWMessageReceiver extends PushReceiver {
         int receiveType = extras.getInt(BOUND_KEY.receiveTypeKey);
         String pushState = extras.getString(BOUND_KEY.pushStateKey);
         int pushNotifyId = extras.getInt(BOUND_KEY.pushNotifyId, 0);
-        // message:[{"id":"123456"}]
-        // Bundle[{receiveType=4, pushMsg=[{"id":"1"},{"name":"jeepeng"},{"sex":"man"}]}]
-
+        try {
+            JSONArray a = new JSONArray(message);
+            JSONObject obj = new JSONObject();
+            for (int i = 0; i < a.length(); i++) {
+                JSONObject jb = a.getJSONObject(i);
+                if(jb != null){
+                    Iterator<String> keys = jb.keys();
+                    while (keys.hasNext()){
+                        String key = keys.next();
+                        obj.put(key, jb.get(key));
+                    }
+                }
+            }
+            message  = obj.toString();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Log.i("suming", message);
         if (Event.NOTIFICATION_OPENED.equals(event)) {
             // 通知在通知栏被点击啦。。。。。
             Intent intent = new Intent(Constants.ACTION_ON_NOTIFICATION_CLICKED);
             Bundle bundle = new Bundle();
             bundle.putString("content", message);
             intent.putExtra("notification", bundle);
-
             intent.putExtra("content", message);
             intent.putExtra("custom_content", message);
             context.sendBroadcast(intent);
