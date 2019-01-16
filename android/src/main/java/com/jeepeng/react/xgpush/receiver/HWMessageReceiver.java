@@ -26,7 +26,6 @@ public class HWMessageReceiver extends PushReceiver {
 
     @Override
     public void onEvent(Context context, Event event, Bundle extras) {
-        Log.i("suming", "收到通知");
         if (Event.NOTIFICATION_OPENED.equals(event) || Event.NOTIFICATION_CLICK_BTN.equals(event)) {
             int notifyId = extras.getInt(BOUND_KEY.pushNotifyId, 0);
             if (0 != notifyId) {
@@ -57,7 +56,6 @@ public class HWMessageReceiver extends PushReceiver {
         }catch (Exception e){
             e.printStackTrace();
         }
-        Log.i("suming", message);
         if (Event.NOTIFICATION_OPENED.equals(event)) {
             // 通知在通知栏被点击啦。。。。。
             Intent intent = new Intent(Constants.ACTION_ON_NOTIFICATION_CLICKED);
