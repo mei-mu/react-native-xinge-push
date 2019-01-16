@@ -26,46 +26,46 @@ public class HWMessageReceiver extends PushReceiver {
 
     @Override
     public void onEvent(Context context, Event event, Bundle extras) {
-        if (Event.NOTIFICATION_OPENED.equals(event) || Event.NOTIFICATION_CLICK_BTN.equals(event)) {
-            int notifyId = extras.getInt(BOUND_KEY.pushNotifyId, 0);
-            if (0 != notifyId) {
-                NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                manager.cancel(notifyId);
-            }
-        }
-
-        String message = extras.getString(BOUND_KEY.pushMsgKey);
-        String deviceToken = extras.getString(BOUND_KEY.deviceTokenKey);
-        int receiveType = extras.getInt(BOUND_KEY.receiveTypeKey);
-        String pushState = extras.getString(BOUND_KEY.pushStateKey);
-        int pushNotifyId = extras.getInt(BOUND_KEY.pushNotifyId, 0);
-        try {
-            JSONArray a = new JSONArray(message);
-            JSONObject obj = new JSONObject();
-            for (int i = 0; i < a.length(); i++) {
-                JSONObject jb = a.getJSONObject(i);
-                if(jb != null){
-                    Iterator<String> keys = jb.keys();
-                    while (keys.hasNext()){
-                        String key = keys.next();
-                        obj.put(key, jb.get(key));
-                    }
-                }
-            }
-            message  = obj.toString();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        if (Event.NOTIFICATION_OPENED.equals(event)) {
-            // 通知在通知栏被点击啦。。。。。
-            Intent intent = new Intent(Constants.ACTION_ON_NOTIFICATION_CLICKED);
-            Bundle bundle = new Bundle();
-            bundle.putString("content", message);
-            intent.putExtra("notification", bundle);
-            intent.putExtra("content", message);
-            intent.putExtra("custom_content", message);
-            context.sendBroadcast(intent);
-        }
+//        if (Event.NOTIFICATION_OPENED.equals(event) || Event.NOTIFICATION_CLICK_BTN.equals(event)) {
+//            int notifyId = extras.getInt(BOUND_KEY.pushNotifyId, 0);
+//            if (0 != notifyId) {
+//                NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//                manager.cancel(notifyId);
+//            }
+//        }
+//
+//        String message = extras.getString(BOUND_KEY.pushMsgKey);
+//        String deviceToken = extras.getString(BOUND_KEY.deviceTokenKey);
+//        int receiveType = extras.getInt(BOUND_KEY.receiveTypeKey);
+//        String pushState = extras.getString(BOUND_KEY.pushStateKey);
+//        int pushNotifyId = extras.getInt(BOUND_KEY.pushNotifyId, 0);
+//        try {
+//            JSONArray a = new JSONArray(message);
+//            JSONObject obj = new JSONObject();
+//            for (int i = 0; i < a.length(); i++) {
+//                JSONObject jb = a.getJSONObject(i);
+//                if(jb != null){
+//                    Iterator<String> keys = jb.keys();
+//                    while (keys.hasNext()){
+//                        String key = keys.next();
+//                        obj.put(key, jb.get(key));
+//                    }
+//                }
+//            }
+//            message  = obj.toString();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        if (Event.NOTIFICATION_OPENED.equals(event)) {
+//            // 通知在通知栏被点击啦。。。。。
+//            Intent intent = new Intent(Constants.ACTION_ON_NOTIFICATION_CLICKED);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("content", message);
+//            intent.putExtra("notification", bundle);
+//            intent.putExtra("content", message);
+//            intent.putExtra("custom_content", message);
+//            context.sendBroadcast(intent);
+//        }
 
         super.onEvent(context, event, extras);
     }
