@@ -31,10 +31,13 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile "com.facebook.react:react-native:+"
     compile "me.leolin:ShortcutBadger:1.1.21@aar"
-    compile 'com.tencent.xinge:xinge:3.2.2-release'
-    compile 'com.tencent.wup:wup:1.0.0.E-release'
-    compile 'com.tencent.mid:mid:4.0.6-release'
-    compile 'com.tencent.xinge:xghw:2.5.2.300-release'
-    compile 'com.tencent.xinge:mipush:3.2.2-release'
-    compile 'com.tencent.xinge:xgmz:3.2.2-release'
+
+    compile 'com.tencent.xinge:xinge:4.3.2-beta'
+    compile 'com.tencent.wup:wup:1.0.0.E-Release'
+    compile 'com.tencent.jg:jg:1.1'
+    compile 'com.tencent.mid:mid:4.0.7-Release'
+
+    compile 'com.tencent.xinge:mipush:4.3.2-xiaomi-release'
+    compile 'com.tencent.xinge:xghw:4.3.2-huawei-beta'
+    compile 'com.tencent.xinge:xgmz:4.3.2-meizu-beta'
 }
