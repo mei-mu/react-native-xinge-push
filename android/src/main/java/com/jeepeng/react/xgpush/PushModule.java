@@ -43,7 +43,7 @@ public class PushModule extends ReactContextBaseJavaModule implements ActivityEv
         super(reactContext);
         reactContext.addActivityEventListener(this);
         reactContext.addLifecycleEventListener(this);
-        this.reactContext = reactContext;
+        this.reactContext = reactContext.getApplicationContext();
         registerReceivers();
     }
 
