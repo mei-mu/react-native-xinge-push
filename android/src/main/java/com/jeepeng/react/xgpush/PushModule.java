@@ -22,9 +22,10 @@ import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGLocalMessage;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
-import com.tencent.android.tpush.encrypt.Rijndael;
 
-import java.util.Date;
+import org.json.JSONObject;
+
+import java.util.Iterator;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
@@ -377,13 +378,24 @@ public class PushModule extends ReactContextBaseJavaModule implements ActivityEv
         if (activity != null) {
             Intent intent = activity.getIntent();
             try {
-                if(intent != null && intent.hasExtra("protect")) {
-                    String title = Rijndael.decrypt(intent.getStringExtra("title"));
-                    String content = Rijndael.decrypt(intent.getStringExtra("content"));
-                    String customContent = Rijndael.decrypt(intent.getStringExtra("custom_content"));
-                    params.putString("title",  title);
-                    params.putString("content",  content);
-                    params.putString("custom_content",  customContent);
+                if(intent != null && intent.hasExtra("data")) {
+                    String dataJson = intent.getStringExtra("data");
+                    JSONObject jsonObject = new JSONObject(dataJson);
+                    String type = jsonObject.getString("type");
+                    JSONObject action = jsonObject.getJSONObject("action");
+                    if(type != null){
+                        params.putString("type",  type);
+                    }
+                    if(action != null){
+                        WritableMap actionMap = Arguments.createMap();
+                        Iterator<String> iterator = action.keys();
+                        while (iterator.hasNext()){
+                            String key = iterator.next();
+                            actionMap.putString(key, action.getString(key));
+                        }
+                        params.putMap("action",  actionMap);
+                    }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
