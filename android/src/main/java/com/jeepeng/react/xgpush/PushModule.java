@@ -23,10 +23,6 @@ import com.tencent.android.tpush.XGLocalMessage;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 
-import org.json.JSONObject;
-
-import java.util.Iterator;
-
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
@@ -380,22 +376,9 @@ public class PushModule extends ReactContextBaseJavaModule implements ActivityEv
             try {
                 if(intent != null && intent.hasExtra("data")) {
                     String dataJson = intent.getStringExtra("data");
-                    JSONObject jsonObject = new JSONObject(dataJson);
-                    String type = jsonObject.getString("type");
-                    JSONObject action = jsonObject.getJSONObject("action");
-                    if(type != null){
-                        params.putString("type",  type);
-                    }
-                    if(action != null){
-                        WritableMap actionMap = Arguments.createMap();
-                        Iterator<String> iterator = action.keys();
-                        while (iterator.hasNext()){
-                            String key = iterator.next();
-                            actionMap.putString(key, action.getString(key));
-                        }
-                        params.putMap("action",  actionMap);
-                    }
-
+                    WritableMap userInfo = Arguments.createMap();
+                    userInfo.putString("hiddendata", dataJson);
+                    params.putMap("userInfo", userInfo);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
