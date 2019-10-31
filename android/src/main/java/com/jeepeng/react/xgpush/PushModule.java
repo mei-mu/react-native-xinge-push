@@ -23,6 +23,9 @@ import com.tencent.android.tpush.XGLocalMessage;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 
+import io.rong.pushperm.RongPushPremissionsCheckHelper;
+import io.rong.pushperm.perm.PermissionStatus;
+import io.rong.pushperm.perm.PermissionType;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
@@ -396,6 +399,21 @@ public class PushModule extends ReactContextBaseJavaModule implements ActivityEv
     public void setApplicationIconBadgeNumber(int number) {
         this.badge = number;
         ShortcutBadger.applyCount(this.reactContext, number);
+    }
+
+    @ReactMethod
+    public void checkPermissions(Callback callback){
+        // 使用融云的通知检测
+        PermissionStatus status = RongPushPremissionsCheckHelper.checkPermisson(getCurrentActivity(), PermissionType.PERM_NOTIFICATION);
+        if(status == PermissionStatus.OPENED){
+            callback.invoke(true);
+        }else if(status == PermissionStatus.CLOSED){
+            callback.invoke(false);
+        }
+    }
+
+    @ReactMethod void goToNotificationSetting() {
+      RongPushPremissionsCheckHelper.goToSetting(getCurrentActivity(), PermissionType.PERM_NOTIFICATION);
     }
 
     @Override

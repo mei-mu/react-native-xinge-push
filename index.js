@@ -104,9 +104,11 @@ class XGPush {
   }
 
   static checkPermissions(callback) {
-    if (Platform.OS === 'ios') {
-      return XGPushManager.checkPermissions(callback);
-    }
+    return XGPushManager.checkPermissions(callback);
+  }
+
+  static goToNotificationSetting() {
+    return XGPushManager.goToNotificationSetting();
   }
 
   static getInitialNotification() {
